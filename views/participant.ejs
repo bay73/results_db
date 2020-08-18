@@ -2,73 +2,84 @@
 <div class="container">
   <div class="row">
     <div class="col-12 col-lg-10 m-auto">
-      <div class="card card-body">
-        <div class="row mb-2 justify-content-end">
-          <div class="input-group col-md-4 col-12">
-            <div class="input-group-prepend">
-              <label class="input-group-text" for="country">Country</label>
+      <div class="card bg-light mb-3 mt-3">
+        <div class="card-body">
+          <div class="row mb-2 justify-content-end">
+            <div class="input-group col-md-4 col-12">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="country">Country</label>
+              </div>
+              <select class="custom-select" id="country">
+                 <option selected value=""></option>
+                 <% countries.sort((c1,c2)=>c1.country.localeCompare(c2.country)).forEach(function(country) { %>
+                    <option value="<%= country.id %>"><%= country.country %></option>
+                 <% }) %>
+              </select>
             </div>
-            <select class="custom-select" id="country">
-               <option selected value=""></option>
-               <% countries.sort((c1,c2)=>c1.country.localeCompare(c2.country)).forEach(function(country) { %>
-                  <option value="<%= country.id %>"><%= country.country %></option>
-               <% }) %>
-            </select>
-          </div>
-          <div class="input-group col-md-6 col-12">
-            <div class="input-group-prepend">
-              <label class="input-group-text" for="participant">Participant</label>
+            <div class="input-group col-md-6 col-12">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="participant">Participant</label>
+              </div>
+              <select class="custom-select" id="participant">
+                 <option selected value=""></option>
+              </select>
             </div>
-            <select class="custom-select" id="participant">
-               <option selected value=""></option>
-            </select>
+            <script>
+              var participants = [];
+              <% participants.sort((p1,p2)=>p1.name.localeCompare(p2.name)).forEach(function(participant) { %>
+                participants.push({id: "<%= participant.id %>", name: "<%= participant.name %>", countryid: "<%= participant.countryid %>"});
+              <% }) %>
+              $("#country").change(function() {
+                var countryid = $("#country").children("option:selected").val();
+                $("#participant").children().remove().end()
+                .append('<option selected value=""></option>');
+                participants
+                  .filter(participant => participant.countryid==countryid)
+                  .forEach(participant => $("#participant").append('<option value="'+participant.id+'">'+participant.name+'</option>'));
+              });
+            </script>
+            <button class="btn btn-outline-primary col-md-2 col-3" id="show">Show</button>
+            <script>
+              $("#show").click(function () {
+                var participant = $("#participant").children("option:selected").val();
+                var url = "/participant/" + participant;
+                window.location = url;
+              });
+            </script>
           </div>
-          <script>
-            var participants = [];
-            <% participants.sort((p1,p2)=>p1.name.localeCompare(p2.name)).forEach(function(participant) { %>
-              participants.push({id: "<%= participant.id %>", name: "<%= participant.name %>", countryid: "<%= participant.countryid %>"});
-            <% }) %>
-            $("#country").change(function() {
-              var countryid = $("#country").children("option:selected").val();
-              $("#participant").children().remove().end()
-              .append('<option selected value=""></option>');
-              participants
-                .filter(participant => participant.countryid==countryid)
-                .forEach(participant => $("#participant").append('<option value="'+participant.id+'">'+participant.name+'</option>'));
-            });
-          </script>
-          <button class="btn btn-outline-primary col-md-2 col-3" id="show">Show</button>
-          <script>
-            $("#show").click(function () {
-              var participant = $("#participant").children("option:selected").val();
-              var url = "/participant/" + participant;
-              window.location = url;
-            });
-          </script>
         </div>
       </div>
-      <div class="card card-body">
-        <table class="table table-condensed table-striped">
-          <thead><tr>
-            <th scope="col">Championship</th>
-            <th scope="col">Year</th>
-            <th scope="col">Official ranking</th>
-            <th scope="col">Unofficial ranking</th>
-            <th scope="col">Points</th>
-          </tr></thead>
-          <tbody>
-            <% results.sort((r1,r2)=>r2.label.localeCompare(r1.label)).forEach(function(result) { %>
-              <tr>
-                <th scope="row"><%= result.name %></th>
-                <td><a href="/championship/<%= result.id %>"><%= result.label %></a></td>
-                <td><%= result.official_rank %></td>
-                <td><%= result.unofficial_rank %></td>
-                <td><%= result.points %></td>
-              </tr>
-            <% }) %>
-          </tbody>
-        </table>
-      </div>
+      <% if (participant) { %>
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">
+              <%= participant.name %>
+            </h4>
+          </div>
+          <div class="card-body">
+            <table class="table table-condensed table-striped">
+              <thead><tr>
+                <th scope="col">Championship</th>
+                <th scope="col">Year</th>
+                <th scope="col">Official ranking</th>
+                <th scope="col">Unofficial ranking</th>
+                <th scope="col">Points</th>
+              </tr></thead>
+              <tbody>
+                <% results.sort((r1,r2)=>r2.label.localeCompare(r1.label)).forEach(function(result) { %>
+                  <tr>
+                    <th scope="row"><%= result.name %></th>
+                    <td><a href="/championship/<%= result.id %>"><%= result.label %></a></td>
+                    <td><%= result.official_rank %></td>
+                    <td><%= result.unofficial_rank %></td>
+                    <td><%= result.points %></td>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      <% } %>
     </div>
   </div>
 </div>
