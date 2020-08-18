@@ -60,7 +60,7 @@
             <% results.sort((r1,r2)=>r2.label.localeCompare(r1.label)).forEach(function(result) { %>
               <tr>
                 <th scope="row"><%= result.name %></th>
-                <td><%= result.label %></td>
+                <td><a href="/championship/<%= result.id %>"><%= result.label %></a></td>
                 <td><%= result.official_rank %></td>
                 <td><%= result.unofficial_rank %></td>
                 <td><%= result.points %></td>

@@ -21,7 +21,7 @@ router.get('/championship/:id', async (req, res, next) => {
     const contests = await db.query('SELECT * FROM contests');
     var results = [];
     if (req.params.id) {
-      results = await db.query('SELECT p.name, c.country, r.official_rank,  r.unofficial_rank, r.points'+
+      results = await db.query('SELECT p.id, p.name, c.country, r.official_rank,  r.unofficial_rank, r.points'+
                                 ' FROM results r, participants p, countries c '+
                                ' WHERE r.contest_id = ? AND p.id = r.participant_id AND c.id = p.countryid', req.params.id);
     }
@@ -42,7 +42,7 @@ router.get('/participant/:id', async (req, res, next) => {
     const participants = await db.query('SELECT * FROM participants');
     var results = [];
     if (req.params.id) {
-      results = await db.query('SELECT ct.name, c.label, r.official_rank,  r.unofficial_rank, r.points'+
+      results = await db.query('SELECT c.id, ct.name, c.label, r.official_rank,  r.unofficial_rank, r.points'+
                                 ' FROM results r, contests c, contest_types ct '+
                                ' WHERE r.participant_id = ? AND c.id = r.contest_id AND ct.id = c.contest_typeid', req.params.id);
     }

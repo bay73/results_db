@@ -61,7 +61,7 @@
               <tr>
                 <th scope="row"><%= result.official_rank %></th>
                 <td><%= result.unofficial_rank %></td>
-                <td><%= result.name %></td>
+                <td><a href="/participant/<%= result.id %>"><%= result.name %></a></td>
                 <td><%= result.country %></td>
                 <td><%= result.points %></td>
               </tr>
