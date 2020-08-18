@@ -37,8 +37,12 @@
                   .filter(contest => contest.typeid==typeid)
                   .forEach(contest => $("#contest").append('<option value="'+contest.id+'">'+contest.label+'</option>'));
               });
+              $("#contest").change(function() {
+                var contestid = $("#contest").children("option:selected").val();
+                $("#show").prop('disabled', !contestid);
+              });
             </script>
-            <button class="btn btn-outline-primary col-md-2 col-3" id="show">Show</button>
+            <button class="btn btn-outline-primary col-md-2 col-3" id="show" disabled="true">Show</button>
             <script>
               $("#show").click(function () {
                 var contest = $("#contest").children("option:selected").val();

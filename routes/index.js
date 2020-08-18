@@ -61,7 +61,6 @@ router.get('/participant/:id', async (req, res, next) => {
                                  ' WHERE r.participant_id = ? AND c.id = r.contest_id AND ct.id = c.contest_typeid', req.params.id);
       }
     }
-    console.log(participant);
     res.render('participant',
       {
          participant: participant,
