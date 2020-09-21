@@ -27,9 +27,12 @@ router.get('/championship/:id', async (req, res, next) => {
         contest = transformRawList(result)[0];
       }
       if (contest) {
-        results = await db.query('SELECT p.id, p.name, c.country, r.official_rank,  r.unofficial_rank, r.points'+
-                                  ' FROM results r, participants p, countries c '+
-                                 ' WHERE r.contest_id = ? AND p.id = r.participant_id AND c.id = p.countryid', req.params.id);
+        results = await db.query('SELECT p.id, p.name, c.country, t.team, r.official_rank, r.unofficial_rank, r.points'+
+                                  ' FROM results r, participants p, countries c, teams t '+
+                                 ' WHERE r.contest_id = ? AND p.id = r.participant_id AND t.id = r.team_id AND c.id = p.countryid', req.params.id);
+        teamResults = await db.query('SELECT t.id, t.team, r.official_rank, r.unofficial_rank, r.points'+
+                                  ' FROM team_results r, teams t '+
+                                 ' WHERE r.contest_id = ? AND t.id = r.team_id', req.params.id);
       }
     }
     res.render('championship',

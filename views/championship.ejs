@@ -61,12 +61,16 @@
             </h4>
           </div>
           <div class="card-body">
+            <h5 class="card-subtitle mb-2">
+              Individual results
+            </h5>
             <table class="table table-condensed table-striped">
               <thead><tr>
                 <th scope="col">Official ranking</th>
                 <th scope="col">Unofficial ranking</th>
                 <th scope="col">Participant</th>
                 <th scope="col">Country</th>
+                <th scope="col">Team</th>
                 <th scope="col">Points</th>
               </tr></thead>
               <tbody>
@@ -76,16 +80,44 @@
                     <td><%= result.unofficial_rank %></td>
                     <td><a href="/participant/<%= result.id %>"><%= result.name %></a></td>
                     <td><%= result.country %></td>
+                    <td><%= result.team %></td>
                     <td><%= result.points %></td>
                   </tr>
                 <% }) %>
               </tbody>
             </table>
+            <div class="container">
+			  <div class="row d-flex justify-content-center">
+				<div class="col-6-md">
+				  <h5 class="card-subtitle mb-2">
+					Team results
+				  </h5>
+				  <table class="table table-condensed table-striped">
+					<thead><tr>
+					  <th scope="col">Official ranking</th>
+					  <th scope="col">Unofficial ranking</th>
+					  <th scope="col">Team</th>
+					  <th scope="col">Points</th>
+					</tr></thead>
+					<tbody>
+					  <% teamResults.sort((r1,r2) => r2.points-r1.points).forEach(function(result) { %>
+						<tr>
+						<th scope="row"><%= result.official_rank %></th>
+                          <td><%= result.unofficial_rank %></td>
+                          <td><%= result.team %></a></td>
+                          <td><%= result.points %></td>
+                        </tr>
+                      <% }) %>
+                    </tbody>
+				  </table>
+			    </div>
+			  </div>
+			</div>
           </div>
         </div>
       <% } %>
     </div>
   </div>
-</div>
 <%- include ('./partials/footer') %>
+</div>
 
