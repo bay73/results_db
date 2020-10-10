@@ -22,7 +22,7 @@ router.get('/championship/:id', async (req, res, next) => {
     var results = [];
     var contest = null;
     if (req.params.id) {
-      const result = await db.query('SELECT ct.name, c.label FROM contests c, contest_types ct WHERE ct.id = c.contest_typeid and c.id = ?', req.params.id);
+      const result = await db.query('SELECT ct.name, c.label, c.host_city, c.host_country FROM contests c, contest_types ct WHERE ct.id = c.contest_typeid and c.id = ?', req.params.id);
       if (result.length != 0) {
         contest = transformRawList(result)[0];
       }

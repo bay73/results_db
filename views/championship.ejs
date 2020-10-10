@@ -59,6 +59,9 @@
             <h4 class="card-title">
               <%= contest.name %> <%= contest.label %>
             </h4>
+            <h5 class="card-subtitle">
+              <%= contest.host_city %>, <%= contest.host_country %>
+            </h5>
           </div>
           <div class="card-body">
             <h5 class="card-subtitle mb-2">
@@ -74,7 +77,7 @@
                 <th scope="col">Points</th>
               </tr></thead>
               <tbody>
-                <% results.sort((r1,r2) => r2.points-r1.points).forEach(function(result) { %>
+                <% results.sort((r1,r2) => r1.unofficial_rank-r2.unofficial_rank).forEach(function(result) { %>
                   <tr>
                     <th scope="row"><%= result.official_rank %></th>
                     <td><%= result.unofficial_rank %></td>
